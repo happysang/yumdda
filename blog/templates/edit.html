@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div style="text-align: center;">
+        <h2>수정 페이지</h2>
+        <br>
+        <form action="{%url 'urlnameupdate' viewseditblog.id %}" method="POST" enctype = "multipart/form-data">
+            {% csrf_token %}
+            제목 :
+            <input type="text" name="htmltitle" value="{{viewseditblog.title}}">
+            <br>
+            <br>
+            글쓴이 :
+            <input type="text" name="htmlwriter" value="{{viewseditblog.writer}}">
+            <br>
+            <br>
+            본문 :
+            <textarea name="htmlbody" cols="30" rows="10">{{viewseditblog.body}}</textarea>
+            <br>
+            <br>
+            {% if viewseditblog.image %}
+                <img src="{{viewseditblog.image.url}}">
+            {% endif %}
+            <br>
+            <br>
+            사진: <input type="file" name="htmlimage">
+            <br>
+            <br>
+            <button type="submit">제출</button>
+        </form>
+    </div>
+{% endblock %}

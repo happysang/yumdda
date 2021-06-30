@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div style="text-align: center;">
+        {%if user.is_authenticated %}
+            {{user.nickname}}님! 안녕하세요?
+        {% endif %}
+        <a href="?search=true&writer={{user.nickname}}">내가 쓴 글</a>
+        <br>
+        <br>
+        <br>
+        <h3>♥빠끄♥</h3>
+        <br>
+        <br>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">제목</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">본문</th>
+                    <th scope="col">작성 날짜</th>
+                    <th scope="col">수정/삭제</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for b in viewsblogs %}
+                    <tr>
+                        <th scope="row">{{b.title}}</th>
+                        <td>{{b.writer}}</td>
+                        <td>{{b.summary}}
+                            <a href="{%url 'urlnamedetail' b.id  %}">...더보기</a>
+                        </td>
+                        <td>{{b.date}}</td>
+                        <td>
+
+                            {%if user.is_authenticated %}
+                                {% if user.nickname == b.writer %}
+                                    <a href="{%url 'urlnameedit' b.id  %}">
+                                        <button>수정</button>
+                                    </a>
+                                    <a href="{%url 'urlnamedelete' b.id %}">
+                                        <button>삭제</button>
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+
+                    </tbody>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div style="text-align: center;">
+            <br><br><br><br>
+            <a href="?page = 1">처음</a>
+            {% if viewsblogs.has_previous %}
+                <a href="?page={{ viewsblogs.previous_page_number }}">이전</a>
+            {% endif %}
+
+            <span>{{viewsblogs.number}}</span>
+            <span>of</span>
+            <span>
+                {{viewsblogs.paginator.num_pages}}
+            </span>
+
+            {% if viewsblogs.has_next %}
+                <a href="?page={{ viewsblogs.next_page_number }}">다음</a>
+            {% endif %}
+            <a href="?page={{ viewsblogs.paginator.num_pages }}">마지막</a>
+        </div>
+    {% endblock %}

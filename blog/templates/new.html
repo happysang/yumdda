@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div style="text-align: center;">
+        <h2>새로운 글 작성하기</h2>
+        <br>
+        <form action="{% url 'urlnamecreate' %}" method="POST" enctype = "multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                제목:<input type="text" name="title" value="{{viewsform.title.value|default_if_none:''}}">
+            </div>
+            <br>
+            {%if user.is_authenticated %}
+            <div class="form-group">
+                글쓴이:<input type="text" name="writer" value="{{viewsform.writer.value|default_if_none:user.nickname}}" readonly > <!--핵심: name 부분을 forms의 fields와 맞춰 주어야한다.-->
+            </div>
+            {% endif %}
+            <br>
+            <div class="form-group">
+                본문:<textarea name="body" cols="30" rows="10" value="{{viewsform.body.value|default_if_none:''}}"></textarea>
+            </div>
+            <br>
+            <div class="form-group">
+                사진:<input type="file" name="image" value="{{viewsform.image.value|default_if_none:''}}">
+            </div>
+            <br>
+            <br>
+
+
+            
+            <!-- 글쓴이 : <input type="text" name = "writer" value="{{viewsform.writer.value|default_if_none:user.nickname}}" readonly>
+            <br>
+            <br>
+            본문 : <textarea name="body" cols="30" rows="10" value="{{viewsform.body.value|default_if_none:''}}"></textarea>
+            <br>
+            <br>
+            사진 : <input type="file" name = "image" value="{{viewsform.image.value|default_if_none:''}}">
+            <br>
+            <br> -->
+
+            <!-- {{viewsform.as_p}} -->
+
+
+            <!--
+            제목 : <input type="text" name = "htmltitle">
+            <br>
+            글쓴이 : <input type="text" name = "htmlwriter">
+            <br>
+            본문 : <textarea name="htmlbody" cols="30" rows="10"></textarea>
+            <br>
+            <br>
+            사진 : <input type="file" name = "htmlimage">
+            -->
+
+            <button type="submit">제출</button>
+        </form>
+    </div>
+{% endblock %}

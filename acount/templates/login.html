@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div style="text-align: center;">
+        <h2>로그인 하기</h2>
+        <form action="{%url 'urlnamelogin' %}" method="POST">
+            {% csrf_token %}
+            {{views_auth_form.as_p}}
+            <button type="submit">제출</button>
+        </form>
+    </div>
+{% endblock %}
